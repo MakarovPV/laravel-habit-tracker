@@ -13,15 +13,14 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', [App\Http\Controllers\HabitsController::class, 'index']);
-Route::get('/previous', [App\Http\Controllers\HabitsController::class, 'previous']);
-Route::get('/next', [App\Http\Controllers\HabitsController::class, 'next']);
-Route::get('/return', [App\Http\Controllers\HabitsController::class, 'returnToMainPage']);
-Route::post('/insert', [App\Http\Controllers\HabitsController::class, 'store']);
-Route::delete('/destroy/{id}', [App\Http\Controllers\HabitsController::class, 'destroy']);
-
-Route::post('/update/{id}', [App\Http\Controllers\DaysOfHabitsController::class, 'update']);
-
+Route::group(['middleware' => 'auth.check'], function() {
+    Route::get('/', [App\Http\Controllers\HabitsController::class, 'index']);
+    Route::get('/previous', [App\Http\Controllers\HabitsController::class, 'previous']);
+    Route::get('/next', [App\Http\Controllers\HabitsController::class, 'next']);
+    Route::get('/return', [App\Http\Controllers\HabitsController::class, 'returnToMainPage']);
+    Route::post('/insert', [App\Http\Controllers\HabitsController::class, 'store']);
+    Route::delete('/destroy/{id}', [App\Http\Controllers\HabitsController::class, 'destroy']);
+    Route::post('/update/{id}', [App\Http\Controllers\DaysOfHabitsController::class, 'update']);
+});
 Auth::routes();
 
